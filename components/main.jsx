@@ -11,6 +11,9 @@ function Main() {
                 <Image style={styles.Logo} source={Logo} />
                 <Text style={styles.Welcome}>Welcome!</Text>
                 <Text style={styles.Text}>all your favorite mangas in one place.</Text>
+                <Pressable style={styles.ButtonMangas}>
+                    <Text >Explore our mangas!</Text>
+                </Pressable>
                 <Pressable style={styles.Button}>
                     <Text style={styles.TextButton}>SIGN IN!</Text>
                 </Pressable>
@@ -49,18 +52,29 @@ const styles = StyleSheet.create({
     Text: {
         fontSize: 20,
         marginBottom: 20,
-        color: 'white'
+        color: 'white',
+        textAlign: 'center'
+    },
+    ButtonMangas: {
+        backgroundColor: '#4B3FD5',
+        width: 290,
+        height: 30,
+        borderRadius: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 10
     },
     Button: {
         borderColor: '#4B3FD5',
         borderWidth: 3,
-        width: 350,
+        width: 290,
         height: 30,
         borderRadius: 10,
         justifyContent: 'center',
         alignItems: 'center'
     },
     containerText: {
+        marginTop: 10,
         marginBottom: 10,
     },
     TextXd: {
