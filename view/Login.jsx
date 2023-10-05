@@ -1,29 +1,73 @@
-import { Text, View, StyleSheet, ImageBackground, TextInput, Pressable } from "react-native"
-import HunterX from '../assets/HunterX.jpg'
+import { Text, View, StyleSheet, ImageBackground, TextInput, Pressable, Alert } from "react-native";
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import HunterX from '../assets/HunterX.jpg';
+import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import saveAuthors from '../redux/actions/me_authors';
 
-export default function Login() {
+const Login = ({ navigation }) => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [token, setToken] = useState("");
+    const dispatch = useDispatch();
+    const { user } = useSelector((store) => store.me_authorsReducer);
+
+    const enviarData = async () => {
+        const userData = {
+            email: email,
+            password: password,
+        };
+
+        try {
+            const credenciales = await axios.post("https://fcb03jwb-8080.brs.devtunnels.ms/auth/signin", userData);
+            console.log(credenciales.data.response)
+            navigation.navigate("Mangas");
+        } catch (error) {
+            console.log("errorcito", error);
+            setToken("");
+            Alert.alert('Login Failed', 'Please check your email and password.');
+        }
+    }
+
     return (
         <ImageBackground source={HunterX} style={styles.container}>
             <View style={styles.Register}>
                 <View style={styles.content}>
                     <Text style={styles.Title}>Login</Text>
                     <Text style={styles.require}>Email</Text>
-                    <TextInput style={styles.input}></TextInput>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="example@company.com"
+                        placeholderTextColor="gray"
+                        onChangeText={text => setEmail(text)}
+                        value={email}
+                    ></TextInput>
                     <Text style={styles.require}>Password</Text>
-                    <TextInput style={styles.input}></TextInput>
-                    <Pressable style={styles.buttonRegister}>
-                        <Text >Register</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="●●●●●●●●"
+                        placeholderTextColor="gray"
+                        secureTextEntry={true}
+                        onChangeText={text => setPassword(text)}
+                        value={password}
+                    ></TextInput>
+                    <Pressable style={styles.buttonRegister} onPress={async () => {
+                        await enviarData();
+                    }}>
+                        <Text>Sign In!</Text>
                     </Pressable>
                     <Text style={styles.containerText}>
                         <Text style={styles.TextXd}>or </Text>
-                        <Text style={styles.TextButton}>Sign up</Text>
+                        <Text onPress={() => navigation.navigate('Register')} style={styles.TextButton}>Sign up</Text>
                     </Text>
-
                 </View>
             </View>
         </ImageBackground>
-    )
+    );
 }
+
+export default Login;
 
 const styles = StyleSheet.create({
     container: {
@@ -63,7 +107,8 @@ const styles = StyleSheet.create({
         color: 'white',
         borderWidth: 3,
         borderRadius: 10,
-        marginBottom: 5
+        marginBottom: 5,
+        paddingHorizontal: 7,
     },
     buttonRegister: {
         backgroundColor: '#4B3FD5',

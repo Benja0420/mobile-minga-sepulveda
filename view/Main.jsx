@@ -1,32 +1,41 @@
-import { Text, View, StyleSheet, ImageBackground, Pressable, Image } from 'react-native'
+import { Text, View, StyleSheet, ImageBackground, Pressable, Image } from 'react-native';
 
-import Logo from '../assets/Logo.png'
-import Naruto from '../assets/Naruto.jpg'
+import Logo from '../assets/Logo.png';
+import Naruto from '../assets/Naruto.jpg';
 
-
-function Main() {
+function Main({ navigation }) {
     return (
         <ImageBackground source={Naruto} style={styles.container}>
             <View style={styles.Hero}>
                 <Image style={styles.Logo} source={Logo} />
                 <Text style={styles.Welcome}>Welcome!</Text>
                 <Text style={styles.Text}>all your favorite mangas in one place.</Text>
-                <Pressable style={styles.ButtonMangas}>
+                <Pressable
+                    style={styles.ButtonMangas}
+                    onPress={() => navigation.navigate('Mangas')}>
                     <Text >Explore our mangas!</Text>
                 </Pressable>
-                <Pressable style={styles.Button}>
+                <Pressable
+                    style={styles.Button}
+                    onPress={() => navigation.navigate('Login')}
+                >
                     <Text style={styles.TextButton}>SIGN IN!</Text>
                 </Pressable>
                 <Text style={styles.containerText}>
                     <Text style={styles.TextXd}>or </Text>
-                    <Text style={styles.TextButton}>Sign up</Text>
+                    <Text
+                        style={styles.TextButton}
+                        onPress={() => navigation.navigate('Register')}
+                    >
+                        Sign up
+                    </Text>
                 </Text>
             </View>
         </ImageBackground>
     )
 }
 
-export default Main
+export default Main;
 
 const styles = StyleSheet.create({
     container: {
